@@ -8,7 +8,6 @@ const userController = {
       userSchema.registerSchema().parse(payload);
       res.status(201).json({ message: "User registered successfully" });
     } catch (error) {
-      console.log(error.errors[0].message);
       res.status(400).json({ message: error.errors[0].message });
     }
   }, // More controller
