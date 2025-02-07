@@ -1,6 +1,6 @@
 import { Router } from "express";
 import userController from "../controller/user.controller.js";
-import ratelimiter from "../config/limiter.js";
+import ratelimiter from "../middlewares/limiter.js";
 
 const router = Router();
 
