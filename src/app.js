@@ -2,7 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import helmet from "helmet";
 
-import redisSession from "./config/redisSession.js";
+import { redisSession } from "./config/redisSession.js";
 import router from "./routes/index.routes.js";
 import errorMiddleware from "./middlewares/error.js";
 
@@ -12,8 +12,8 @@ dotenv.config();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(helmet());
-app.use(errorMiddleware);
-app.use(redisSession)
+app.use(errorMiddleware); // To prevent crashes in server
+// app.use(redisSession); // Used redis as
 
 app.use("/api/v1", router);
 

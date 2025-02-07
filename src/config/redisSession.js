@@ -5,13 +5,18 @@ import session from "express-session";
 import dotenv from "dotenv";
 
 dotenv.config();
+let redisClient;
 
-const redisClient = createClient({
-  host: "localhost",
-  port: 6379,
-});
+(async () => {
+  redisClient = createClient({
+    url: process.env.REDIS_URL,
+    database: 0,
+  });
 
-redisClient.on("error", (err) => console.log("Redis Client Error", err));
+  redisClient.on("error", (error) => console.error(`Error : ${error}`));
+
+  await redisClient.connect();
+})();
 
 const redisSession = session({
   store: new RedisStore({
@@ -21,6 +26,8 @@ const redisSession = session({
   secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
+  cookie: { secure: true }, // Set to true for HTTPS
 });
 
-export default redisSession;
+export default redisClient;
+export { redisSession };
